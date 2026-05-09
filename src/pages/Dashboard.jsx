@@ -115,7 +115,7 @@ export default function Dashboard() {
   const [showForm, setShowForm]             = useState(false);
   const [selectedCounty, setSelectedCounty] = useState(null);
 
-  const activeIncidents  = incidents.filter(i => i.status === "active");
+  const activeIncidents  = incidents.filter(i => i.status === "active" || !i.status);
   const resolvedToday    = incidents.filter(i => i.status === "resolved");
   const criticalCounties = KENYA_COUNTIES.filter(c => getRiskScore(c) >= 75);
 
