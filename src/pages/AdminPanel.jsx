@@ -147,7 +147,7 @@ export default function AdminPanel() {
       {/* Header */}
       <header style={{
         background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
-        padding: "0 1.5rem", height: 60,
+        padding: "0 1rem", height: "auto", minHeight: 60, flexWrap: "wrap", gap: 8,
         display: "flex", alignItems: "center", justifyContent: "space-between",
         borderBottom: "3px solid #C77C3A",
       }}>
@@ -167,7 +167,7 @@ export default function AdminPanel() {
         </div>
       </header>
 
-      <div style={{ padding: "1.25rem 1.5rem", maxWidth: 900, margin: "0 auto" }}>
+      <div style={{ padding: "1.25rem 1.5rem", maxWidth: 900, padding: "1rem", margin: "0 auto" }}>
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>

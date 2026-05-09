@@ -114,7 +114,7 @@ export default function ClimateTrendChart() {
       </div>
 
       {/* Decade stat cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 0, borderBottom: "1px solid rgba(64,145,108,0.1)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", flexWrap: "wrap", gap: 0, borderBottom: "1px solid rgba(64,145,108,0.1)" }}>
         {DECADES.map((d, i) => (
           <div key={d.label} style={{
             padding: "0.6rem 0.75rem", textAlign: "center",

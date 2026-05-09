@@ -7,23 +7,6 @@ import AlertBanner from "../components/AlertBanner";
 import WeatherScanPanel from "../components/WeatherScanPanel";
 import ClimateTrendChart from "../components/ClimateTrendChart";
 
-const theme = {
-  forest:    "#1B4332",
-  canopy:    "#2D6A4F",
-  moss:      "#40916C",
-  fern:      "#52B788",
-  mist:      "#D8F3DC",
-  earth:     "#6B4226",
-  ochre:     "#C77C3A",
-  sand:      "#F4E4C1",
-  bark:      "#3E2C1C",
-  cream:     "#FAF6EE",
-  alert:     "#C0392B",
-  alertSoft: "#FDECEA",
-  warn:      "#D4850A",
-  warnSoft:  "#FEF3DC",
-};
-
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,6 +14,7 @@ const globalStyles = `
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: #D8F3DC; }
   ::-webkit-scrollbar-thumb { background: #52B788; border-radius: 4px; }
+
   @keyframes fadeSlideIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -39,6 +23,8 @@ const globalStyles = `
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.45; }
   }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   .card {
     background: #fff;
     border-radius: 14px;
@@ -54,6 +40,7 @@ const globalStyles = `
     display: flex;
     align-items: center;
     gap: 7px;
+    flex-wrap: wrap;
   }
   .stat-card {
     background: #fff;
@@ -81,9 +68,81 @@ const globalStyles = `
     font-size: 13px;
     font-family: 'DM Sans', sans-serif;
     transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
   }
   .btn-primary:hover { background: #a93226; transform: translateY(-1px); }
   .btn-primary:active { transform: scale(0.98); }
+
+  /* Stats grid: 4 cols desktop → 2 cols mobile */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Main layout: map + sidebar side by side on desktop */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 330px;
+    gap: 14px;
+  }
+
+  /* Sidebar stacks below map on mobile */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Header live pill — hide on small screens */
+  .live-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 4px 12px;
+  }
+
+  /* Map legend — hide labels on tiny screens */
+  .map-legend {
+    margin-left: auto;
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+  }
+
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .main-grid {
+      grid-template-columns: 1fr;
+    }
+    .live-pill {
+      display: none;
+    }
+    .map-legend {
+      display: none;
+    }
+    .cg-header {
+      padding: 0 1rem !important;
+    }
+    .cg-body {
+      padding: 1rem !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .stat-card {
+      padding: 0.75rem;
+    }
+  }
 `;
 
 function LiveDot({ color = "#40916C" }) {
@@ -132,7 +191,7 @@ export default function Dashboard() {
       <div style={{ minHeight: "100vh", background: "#FAF6EE" }}>
 
         {/* Header */}
-        <header style={{
+        <header className="cg-header" style={{
           background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
           padding: "0 1.5rem",
           height: 60,
@@ -144,61 +203,61 @@ export default function Dashboard() {
           top: 0,
           zIndex: 100,
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ fontSize: 24 }}>🌍</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 22 }}>🌍</span>
             <div>
-              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: "#fff", fontWeight: 600, lineHeight: 1.1 }}>
+              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, color: "#fff", fontWeight: 600, lineHeight: 1.1 }}>
                 ClimateGuard Kenya
               </h1>
-              <p style={{ fontSize: 10, color: "#52B788", letterSpacing: "0.06em" }}>
-                DISASTER MANAGEMENT & CLIMATE RISK SYSTEM
+              <p style={{ fontSize: 9, color: "#52B788", letterSpacing: "0.06em" }}>
+                DISASTER MANAGEMENT & CLIMATE RISK
               </p>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", borderRadius: 20, padding: "4px 12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div className="live-pill">
               <LiveDot color="#52B788" />
               <span style={{ fontSize: 12, color: "#D8F3DC" }}>Live monitoring</span>
             </div>
             <button className="btn-primary" onClick={() => setShowForm(true)}>
-              + Report Incident
+              + Report
             </button>
           </div>
         </header>
 
         {/* Alert banners */}
         {alerts.length > 0 && (
-          <div style={{ background: "#FEF3DC", borderBottom: "2px solid #C77C3A", padding: "0.6rem 1.5rem" }}>
+          <div style={{ background: "#FEF3DC", borderBottom: "2px solid #C77C3A", padding: "0.6rem 1rem" }}>
             {alerts.slice(0, 3).map(a => <AlertBanner key={a.id} alert={a} />)}
           </div>
         )}
 
-        <div style={{ padding: "1.25rem 1.5rem", maxWidth: 1400, margin: "0 auto" }}>
+        <div className="cg-body" style={{ padding: "1.25rem 1.5rem", maxWidth: 1400, margin: "0 auto" }}>
 
           {/* Stats */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 16 }}>
+          <div className="stats-grid">
             {stats.map(s => (
               <div className="stat-card" key={s.label} style={{ animationDelay: s.delay }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                   <div>
-                    <p style={{ fontSize: 12, color: "#999", marginBottom: 4 }}>{s.label}</p>
-                    <p style={{ fontSize: 32, fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
+                    <p style={{ fontSize: 11, color: "#999", marginBottom: 4 }}>{s.label}</p>
+                    <p style={{ fontSize: 28, fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
                   </div>
-                  <span style={{ fontSize: 22, opacity: 0.75 }}>{s.icon}</span>
+                  <span style={{ fontSize: 20, opacity: 0.75 }}>{s.icon}</span>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Map + sidebar */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 330px", gap: 14 }}>
+          <div className="main-grid">
 
             {/* Map card */}
             <div className="card" style={{ overflow: "hidden", animationDelay: "0.2s" }}>
               <div className="card-header">
                 <span>🗺️</span>
                 <span>Kenya Climate Risk & Incident Map</span>
-                <div style={{ marginLeft: "auto", display: "flex", gap: 12, fontSize: 11 }}>
+                <div className="map-legend">
                   {[
                     { color: "#E24B4A", label: "Critical" },
                     { color: "#EF9F27", label: "High"     },
@@ -220,7 +279,7 @@ export default function Dashboard() {
             </div>
 
             {/* Sidebar */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div className="sidebar">
 
               {/* County detail / hint */}
               {selectedCounty ? (
@@ -333,7 +392,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Climate trend chart — full width */}
+          {/* Climate trend chart */}
           <div style={{ marginTop: 14 }}>
             <ClimateTrendChart />
           </div>
