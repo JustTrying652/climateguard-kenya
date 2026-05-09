@@ -160,7 +160,6 @@ export default function Dashboard() {
               <LiveDot color="#52B788" />
               <span style={{ fontSize: 12, color: "#D8F3DC" }}>Live monitoring</span>
             </div>
-            <a href="/admin" style={{ fontSize: 12, color: "#D8F3DC", textDecoration: "none", padding: "0.45rem 0.85rem", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 8 }}>🛡️ Admin</a>
             <button className="btn-primary" onClick={() => setShowForm(true)}>
               + Report Incident
             </button>
