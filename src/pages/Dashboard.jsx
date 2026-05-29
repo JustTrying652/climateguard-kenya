@@ -399,7 +399,7 @@ export default function Dashboard() {
 
           {/* Footer */}
           <p style={{ marginTop: 20, textAlign: "center", fontSize: 11, color: "#ccc", paddingBottom: "1rem" }}>
-            ClimateGuard Kenya · Built for the Climate Action & Green Innovation Hackathon · Data: OpenWeatherMap, Kenya Meteorological Department
+            ClimateGuard Kenya · Built for the Climate Action & Green Conservation · Data: OpenWeatherMap, Kenya Meteorological Department
           </p>
         </div>
       </div>
