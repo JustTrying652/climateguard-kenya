@@ -368,7 +368,7 @@ export default function Dashboard() {
               <div className="card" style={{ animationDelay: "0.35s" }}>
                 <div className="card-header">
                   <span>📞</span>
-                  <span>Emergency Contacts</span>
+                  <span>Emergency </span>
                 </div>
                 {EMERGENCY_CONTACTS.map(c => (
                   <div key={c.name} style={{
